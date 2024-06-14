@@ -1,0 +1,15 @@
+button{
+    text-align: center;
+    align-items: center;
+}
+
+.displaySpan{
+    text-align: right;
+    align-items: right;
+}
+
+#calculator {
+    margin: 0;
+    height: inherit;
+    width: inherit;
+}
