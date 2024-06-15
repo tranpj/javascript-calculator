@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { enterOperation, enterDecimal, enterNumber, invert, calculate, clear, selectInput, selectDisplay } from './calculatorSlice';
+import { enterOperation, enterDecimal, enterNumber, invert, calculate, clear, toggleMode, selectInput, selectDisplay, selectMode } from './calculatorSlice';
 import styles from './Calculator.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -8,6 +8,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 export function Calculator() {
     const display = useSelector(selectDisplay);
     const input = useSelector(selectInput);
+    const mode = useSelector(selectMode);
     const dispatch = useDispatch();
 
     return (
@@ -15,6 +16,10 @@ export function Calculator() {
             <div className='row'>
                 <span id="input" className='col-12 themed-grid-col displaySpan'>{input.join('')}</span>
                 <span id="display" className='col-12 themed-grid-col displaySpan'>{display}</span>
+            </div>
+            <div className='row'>
+                <button className='col-6 themed-grid-col' onClick={() => dispatch(toggleMode())}>Logic Mode</button>
+                <span className='col-6 themed-grid-col'>{mode}</span>
             </div>
             <div className='row'>
                 <button id="seven" className='col-3 themed-grid-col' onClick={() => dispatch(enterNumber(7))}>7</button>

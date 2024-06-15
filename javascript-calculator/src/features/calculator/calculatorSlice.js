@@ -16,7 +16,9 @@ const initialState = {
     curNum: null,
     curNumType: NUM_INT,
     prevInput: INPUT_CLEAR,
-    output: 0
+    output: 0,
+    //formula logic if true, immediate execution logic if false
+    calcModeFL: true
 }
 
 const isNum = (input) => {
@@ -43,11 +45,11 @@ const addCurOpToSequence = (state, input) => {
 }
 
 const replaceCurOpInSequence = (state, input) => {
-    if(input == '-'){
+    if (input == '-') {
         state.output = state.curInput;
         state.prevInput = INPUT_NEG;
     }
-    else{
+    else {
         state.inputSequence.pop();
         state.curInput = input;
         state.inputSequence.push(state.curInput);
@@ -119,33 +121,66 @@ const removeDecimalFromCurNum = (state) => {
 
 const calculateResult = (state) => {
     let result = 0;
-
-    console.log(state.inputSequence.join(',').toString());
-
     let opSequence = state.inputSequence.filter(a => !(isNum(a)));
     let numSequence = state.inputSequence.filter(a => isNum(a)).map(num => parseFloat(num));
 
-    console.log(opSequence.join(',').toString());
-    console.log(numSequence.join(',').toString());
+    if (state.calcModeFL) {
+        let index = 0;
+        let regex;
+        let value = 0;
 
-    for (let i = 0; i < opSequence.length; i++) {
-        if (i === 0) {
-            result = numSequence[i]
+        while (index > -1) {
+            regex = /[\*\/]/;
+            index = opSequence.findIndex(op => regex.test(op));
+            value = 0;
+
+            if (index <= -1) {
+                regex = /[\+-]/;
+                index = opSequence.findIndex(op => regex.test(op));
+            }
+
+            if (index > -1) {
+                switch (opSequence[index]) {
+                    case '+':
+                        value = numSequence[index] + numSequence[index + 1];
+                        break;
+                    case '-':
+                        value = numSequence[index] - numSequence[index + 1];
+                        break;
+                    case '*':
+                        value = numSequence[index] * numSequence[index + 1];
+                        break;
+                    case '/':
+                        value = numSequence[index] / numSequence[index + 1];
+                        break;
+                }
+
+                opSequence = [...opSequence.slice(0, index), ...opSequence.slice(index + 1)];
+                numSequence = [...numSequence.slice(0, index), value, ...numSequence.slice(index + 2)];
+            }
         }
+        result = numSequence[0];
+    }
+    else {
+        for (let i = 0; i < opSequence.length; i++) {
+            if (i === 0) {
+                result = numSequence[i]
+            }
 
-        switch (opSequence[i]) {
-            case '+':
-                result += numSequence[i + 1];
-                break;
-            case '-':
-                result -= numSequence[i + 1];
-                break;
-            case '*':
-                result *= numSequence[i + 1];
-                break;
-            case '/':
-                result /= numSequence[i + 1];
-                break;
+            switch (opSequence[i]) {
+                case '+':
+                    result += numSequence[i + 1];
+                    break;
+                case '-':
+                    result -= numSequence[i + 1];
+                    break;
+                case '*':
+                    result *= numSequence[i + 1];
+                    break;
+                case '/':
+                    result /= numSequence[i + 1];
+                    break;
+            }
         }
     }
 
@@ -289,13 +324,18 @@ export const calculatorSlice = createSlice({
         },
         clear: (state) => {
             setInitialState(state);
+        },
+        toggleMode: (state) => {
+            setInitialState(state);
+            state.calcModeFL = !state.calcModeFL;
         }
     }
-})
+});
 
-export const { enterOperation, enterDecimal, enterNumber, invert, calculate, clear } = calculatorSlice.actions;
+export const { enterOperation, enterDecimal, enterNumber, invert, calculate, clear, toggleMode } = calculatorSlice.actions;
 
 export const selectDisplay = (state) => state.calculator.output;
 export const selectInput = (state) => state.calculator.inputSequence;
+export const selectMode = (state) => state.calculator.calcModeFL ? 'Formula Logic' : 'Immediate Execution Logic';
 
 export default calculatorSlice.reducer;
