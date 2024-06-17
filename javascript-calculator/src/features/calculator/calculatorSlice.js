@@ -162,11 +162,8 @@ const calculateResult = (state) => {
         result = numSequence[0];
     }
     else {
+        result = numSequence[0];
         for (let i = 0; i < opSequence.length; i++) {
-            if (i === 0) {
-                result = numSequence[i]
-            }
-
             switch (opSequence[i]) {
                 case '+':
                     result += numSequence[i + 1];
