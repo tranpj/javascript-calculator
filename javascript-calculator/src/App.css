@@ -1,4 +1,5 @@
 :root {
+  /* App colors */
   --background-color: #212529;
   --calculator-color: #2A3439;
   --calculator-border-color: #C0C0C0;
@@ -6,28 +7,30 @@
   --display-text-color: white;
   --btn-hover-border-color: #C0C0C0;
 
+  /* mode button colors */
   --mode-btn-color: #1E4D2B;
   --mode-btn-text-color: white;
   --mode-btn-hover-color: #013220;
   --mode-btn-hover-text-color: #C0C0C0;
-  ;
 
+  /* clear button colors */
   --clear-btn-color: #800020;
   --clear-btn-text-color: white;
   --clear-btn-hover-color: #58111A;
   --clear-btn-hover-text-color: #C0C0C0;
-  ;
 
+  /* equals button colors */
   --equals-btn-color: #0070BB;
   --equals-btn-text-color: white;
   --equals-btn-hover-color: #003262;
   --equals-btn-hover-text-color: #C0C0C0;
-  ;
 
+  /* number button colors */
   --num-btn-color: #555555;
   --num-btn-text-color: white;
   --num-btn-hover-text-color: black;
 
+  /* operations button colors */
   --op-btn-color: #848482;
   --op-btn-text-color: white;
   --op-btn-hover-text-color: black;
@@ -68,6 +71,7 @@
 #input,
 #display {
   text-align: right;
+  font-size: 25px;
 }
 
 #mode-display {
@@ -83,6 +87,7 @@ button {
   border-radius: 10px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
+  font-size: 20px;
 }
 
 #mode-button {
@@ -93,25 +98,21 @@ button {
 #clear {
   background-color: var(--clear-btn-color);
   color: var(--clear-btn-text-color);
-  font-size: 20px;
 }
 
 #equals {
   background-color: var(--equals-btn-color);
   color: var(--equals-btn-text-color);
-  font-size: 20px;
 }
 
 .num-button {
   background-color: var(--num-btn-color);
   color: var(--num-btn-text-color);
-  font-size: 20px;
 }
 
 .op-button {
   background-color: var(--op-btn-color);
   color: var(--op-btn-text-color);
-  font-size: 20px;
 }
 
 button:hover {

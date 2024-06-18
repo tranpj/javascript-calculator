@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { enterOperation, enterDecimal, enterNumber, invert, calculate, clear, toggleMode, selectInput, selectDisplay, selectMode } from './calculatorSlice';
+// import bootstrap to handle grid layout and card/container styles
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import icons from bootstrap to used for the operations
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
+// React component which comprises the calculator
 export function Calculator() {
     const display = useSelector(selectDisplay);
     const input = useSelector(selectInput);
     const mode = useSelector(selectMode);
     const dispatch = useDispatch();
 
+    // Return JSX to render the  calculator
     return (
         <div id='vertical-center'>
             <div id="calculator" className='card container'>
